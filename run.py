@@ -11,5 +11,5 @@ parser.add_argument('--gpunum', default=2, type=int, help='number of gpu used to
 parser.add_argument('--lr', default=0.01, type=float, help='learning rate')
 args = parser.parse_args()
 
-train_prednet(model=args.model, cls=cls, gpunum=args.gpunum, lr=args.lr)
+train_prednet(model=args.model, cls=args.cls, gpunum=args.gpunum, lr=args.lr)
 
