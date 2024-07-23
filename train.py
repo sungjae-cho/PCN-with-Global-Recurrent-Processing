@@ -167,4 +167,5 @@ def train_prednet(model='PredNetTied', cls=6, gpunum=4, lr=0.01):
         if epoch==80 or epoch==140 or epoch==200:
             decrease_learning_rate()
         train(epoch)
-        test(epoch)
+        with torch.no_grad():
+            test(epoch)
