@@ -37,7 +37,7 @@ class FBconv2d(nn.Module):
         x = self.convtranspose2d(x)
         return x
 
-   
+
 # FFconv2d and FBconv2d that share weights
 class Conv2d(nn.Module):
     def __init__(self, inchan, outchan, sample=False):
@@ -89,10 +89,10 @@ class PredNet(nn.Module):
 
         # Feedforward
         xr = [F.relu(self.FFconv[0](x))]
-        for i in range(1,self.nlays):            
-            xr.append(F.relu(self.FFconv[i](xr[i-1])))          
+        for i in range(1,self.nlays):
+            xr.append(F.relu(self.FFconv[i](xr[i-1])))
 
-        # Dynamic process 
+        # Dynamic process
         for t in range(self.cls):
 
             # Feedback prediction
@@ -109,11 +109,11 @@ class PredNet(nn.Module):
                 b0 = F.relu(self.b0[i]).expand_as(xr[i])
                 xr[i] = F.relu(self.FFconv[i](xr[i-1]-xp[i-1])*b0 + xr[i])
 
-        # classifier                
+        # classifier
         out = F.avg_pool2d(xr[-1], xr[-1].size(-1))
         out = out.view(out.size(0), -1)
         out = self.linear(out)
- 
+
         return out
 
 
@@ -140,11 +140,11 @@ class PredNetTied(nn.Module):
     def forward(self, x):
 
         # Feedforward
-        xr = [F.relu(self.conv[0](x))]        
+        xr = [F.relu(self.conv[0](x))]
         for i in range(1,self.nlays):
-            xr.append(F.relu(self.conv[i](xr[i-1])))     
+            xr.append(F.relu(self.conv[i](xr[i-1])))
 
-        # Dynamic process 
+        # Dynamic process
         for t in range(self.cls):
 
             # Feedback prediction
@@ -159,11 +159,11 @@ class PredNetTied(nn.Module):
             xr[0] = F.relu(self.conv[0](x - self.conv[0](xr[0],feedforward=False))*b + xr[0])
             for i in range(1, self.nlays):
                 b = F.relu(self.b0[i]).expand_as(xr[i])
-                xr[i] = F.relu(self.conv[i](xr[i-1]-xp[i-1])*b + xr[i])  
+                xr[i] = F.relu(self.conv[i](xr[i-1]-xp[i-1])*b + xr[i])
 
-        # classifier                
+        # classifier
         out = F.avg_pool2d(xr[-1], xr[-1].size(-1))
         out = out.view(out.size(0), -1)
         out = self.linear(out)
         return out
-          
+
