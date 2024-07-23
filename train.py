@@ -17,6 +17,7 @@ def train_prednet(model='PredNetTied', cls=6, gpunum=4, lr=0.01):
     best_acc = 0  # best test accuracy
     start_epoch = 0  # start from epoch 0 or last checkpoint epoch
     batchsize = 128 #batch size
+    batchsize_test = 100
     root = './'
     rep = 1 #intial repitetion is 1
 
@@ -48,7 +49,7 @@ def train_prednet(model='PredNetTied', cls=6, gpunum=4, lr=0.01):
     trainset = torchvision.datasets.CIFAR100(root='./data', train=True, download=True, transform=transform_train)
     trainloader = torch.utils.data.DataLoader(trainset, batch_size=batchsize, shuffle=True, num_workers=2)
     testset = torchvision.datasets.CIFAR100(root='./data', train=False, download=True, transform=transform_test)
-    testloader = torch.utils.data.DataLoader(testset, batch_size=100, shuffle=False, num_workers=2)
+    testloader = torch.utils.data.DataLoader(testset, batch_size=batchsize_test, shuffle=False, num_workers=2)
 
     # Define objective function
     criterion = nn.CrossEntropyLoss()
