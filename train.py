@@ -41,6 +41,7 @@ def train_prednet(model='PredNetTied', cls=6, gpunum=4, lr=0.01, dataset='CIFAR1
     print('==> Preparing data..')
     if dataset == 'CIFAR100':
         n_input_channels = 3
+        n_classes = 100
         transform_train = transforms.Compose([
             transforms.RandomCrop(32, padding=4),
             transforms.RandomHorizontalFlip(),
@@ -55,9 +56,11 @@ def train_prednet(model='PredNetTied', cls=6, gpunum=4, lr=0.01, dataset='CIFAR1
         testloader = torch.utils.data.DataLoader(testset, batch_size=batchsize_test, shuffle=False, num_workers=2)
     elif dataset == 'MNIST':
         n_input_channels = 1
+        n_classes = 10
         (trainset, testset), (trainloader, testloader) = load_dataset(dataset, batchsize)
     elif dataset == 'CIFAR10':
         n_input_channels = 3
+        n_classes = 10
         (trainset, testset), (trainloader, testloader) = load_dataset(dataset, batchsize)
 
     # Define objective function
