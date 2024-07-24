@@ -26,7 +26,7 @@ Clone this repo: https://github.com/libilab/PCN_v1.git
 As an example, the following command trains a PCN with circles = 6 on CIFAR-100 using 4 GPU:
 
 ```bash
-python run.py --cls 6 --model 'PredNet' --gpunum 4
+python run.py --cls 6 --model 'PredNet' --gpunum 1
 ```
 
 ## Results on CIFAR
