@@ -140,7 +140,8 @@ def train_prednet(model='PredNetTied', cls=6, gpunum=4, lr=0.01, dataset='CIFAR1
         for batch_idx, (inputs, targets) in enumerate(testloader):
             if use_cuda:
                 inputs, targets = inputs.cuda(), targets.cuda()
-            inputs, targets = Variable(inputs, volatile=True), Variable(targets)
+            with torch.no_grad():
+                inputs, targets = Variable(inputs, volatile=False, requires_grad=False), Variable(targets, requires_grad=False)
             outputs = net(inputs)
             loss = criterion(outputs, targets)
 
