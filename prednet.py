@@ -89,7 +89,10 @@ class PredNet(nn.Module):
         self.b0 = nn.ParameterList([nn.Parameter(torch.zeros(1,ocs[i],1,1)+1.0) for i in range(self.nlays)])
 
         # Linear layer
-        self.linear = nn.Linear(ocs[-1], num_classes)
+        #self.linear = nn.Linear(ocs[-1], num_classes)
+        self.fc1 = nn.Linear(ocs[-1], 128)
+        self.fc2 = nn.Linear(128, num_classes)
+        self.linear = nn.ModuleList([self.fc1, self.fc2])
 
     def forward(self, x):
 
@@ -118,7 +121,8 @@ class PredNet(nn.Module):
         # classifier
         out = F.avg_pool2d(xr[-1], xr[-1].size(-1))
         out = out.view(out.size(0), -1)
-        out = self.linear(out)
+        #out = self.linear(out)
+        out = self.fc2(self.fc1(out))
 
         return out
 
@@ -147,7 +151,10 @@ class PredNetTied(nn.Module):
         self.b0 = nn.ParameterList([nn.Parameter(torch.zeros(1,ocs[i],1,1)+1.0) for i in range(self.nlays)])
 
         # Linear layer
-        self.linear = nn.Linear(ocs[-1], num_classes)
+        #self.linear = nn.Linear(ocs[-1], num_classes)
+        self.fc1 = nn.Linear(ocs[-1], 128)
+        self.fc2 = nn.Linear(128, num_classes)
+        self.linear = nn.ModuleList([self.fc1, self.fc2])
 
     def forward(self, x):
 
@@ -176,6 +183,7 @@ class PredNetTied(nn.Module):
         # classifier
         out = F.avg_pool2d(xr[-1], xr[-1].size(-1))
         out = out.view(out.size(0), -1)
-        out = self.linear(out)
+        #out = self.linear(out)
+        out = self.fc2(self.fc1(out))
         return out
 

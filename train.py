@@ -68,9 +68,12 @@ def train_prednet(model='PredNetTied', cls=6, gpunum=4, lr=0.01, dataset='CIFAR1
 
     # Model
     print('==> Building model..')
-    ics = [n_input_channels,  64, 64,  128, 128, 256, 256, 256] # input chanels
-    ocs = [64, 64, 128, 128, 256, 256, 256, 256] # output chanels
-    sps = [False, False, True, False, True, False, False, False] # downsample flag
+    #ics = [n_input_channels,  64, 64,  128, 128, 256, 256, 256] # input chanels
+    ics = [n_input_channels,  32] # input channels
+    #ocs = [64, 64, 128, 128, 256, 256, 256, 256] # output chanels
+    ocs = [32, 64] # output channels
+    #sps = [False, False, True, False, True, False, False, False] # downsample flag
+    sps = [False, False] # downsample flag
     net = models[model](num_classes=n_classes,cls=cls,ics=ics,ocs=ocs,sps=sps)
 
     #set up optimizer
@@ -116,6 +119,7 @@ def train_prednet(model='PredNetTied', cls=6, gpunum=4, lr=0.01, dataset='CIFAR1
             outputs = net(inputs)
             loss = criterion(outputs, targets)
             loss.backward()
+            torch.nn.utils.clip_grad_norm_(net.parameters(), 1.0)
             optimizer.step()
 
             train_loss += loss
