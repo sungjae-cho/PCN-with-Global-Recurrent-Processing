@@ -68,7 +68,10 @@ def train_prednet(model='PredNetTied', cls=6, gpunum=4, lr=0.01, dataset='CIFAR1
 
     # Model
     print('==> Building model..')
-    net = models[model](num_classes=100,cls=cls)
+    ics = [n_input_channels,  64, 64,  128, 128, 256, 256, 256] # input chanels
+    ocs = [64, 64, 128, 128, 256, 256, 256, 256] # output chanels
+    sps = [False, False, True, False, True, False, False, False] # downsample flag
+    net = models[model](num_classes=n_classes,cls=cls,ics=ics,ocs=ocs,sps=sps)
 
     #set up optimizer
     if model=='PredNetTied':

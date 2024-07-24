@@ -64,11 +64,17 @@ class Conv2d(nn.Module):
 # PredNet
 class PredNet(nn.Module):
 
-    def __init__(self, num_classes=10, cls=3):
+    def __init__(self,
+            num_classes=10, cls=3,
+            ics=[3,  64, 64,  128, 128, 256, 256, 256],
+            ocs=[64, 64, 128, 128, 256, 256, 256, 256],
+            sps=[False, False, True, False, True, False, False, False]):
         super().__init__()
+        '''
         ics = [3,  64, 64,  128, 128, 256, 256, 256] # input chanels
         ocs = [64, 64, 128, 128, 256, 256, 256, 256] # output chanels
         sps = [False, False, True, False, True, False, False, False] # downsample flag
+        '''
         self.cls = cls # num of circles
         self.nlays = len(ics) #number of layers
 
@@ -119,11 +125,17 @@ class PredNet(nn.Module):
 
 # PredNet
 class PredNetTied(nn.Module):
-    def __init__(self, num_classes=10, cls=3):
+    def __init__(self,
+            num_classes=10, cls=3,
+            ics=[3,  64, 64,  128, 128, 256, 256, 256],
+            ocs=[64, 64, 128, 128, 256, 256, 256, 256],
+            sps=[False, False, True, False, True, False, False, False]):
         super().__init__()
+        '''
         ics = [3,  64, 64,  128, 128, 256, 256, 256] # input chanels
         ocs = [64, 64, 128, 128, 256, 256, 256, 256] # output chanels
         sps = [False, False, True, False, True, False, False, False] # downsample flag
+        '''
         self.cls = cls # num of circles
         self.nlays = len(ics) # num of circles
 
