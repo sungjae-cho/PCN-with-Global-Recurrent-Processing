@@ -99,6 +99,7 @@ def train_prednet(model='PredNetTied', cls=6, gpunum=4, lr=0.01, dataset='CIFAR1
    # Training
     def train(epoch):
         print('\nEpoch: %d' % epoch)
+        print('TRAIN')
         net.train()
         train_loss = 0
         correct = 0
@@ -132,6 +133,7 @@ def train_prednet(model='PredNetTied', cls=6, gpunum=4, lr=0.01, dataset='CIFAR1
 
     # Testing
     def test(epoch):
+        print('\nTEST')
         nonlocal best_acc
         net.eval()
         test_loss = 0
