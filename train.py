@@ -35,7 +35,7 @@ def train_prednet(model='PredNetTied', cls=6, gpunum=4, lr=0.01, dataset='CIFAR1
         os.mkdir(logpath)
     while(os.path.isfile(checkpointpath + modelname + '_last_ckpt.t7')):
         rep += 1
-        modelname = model+'_'+str(lr)+'LR_'+str(cls)+'CLS_'+str(rep)+'REP'
+        modelname = model+'_'+dataset+'_'+str(lr)+'LR_'+str(cls)+'CLS_'+str(rep)+'REP'
 
     # Data
     print('==> Preparing data..')
