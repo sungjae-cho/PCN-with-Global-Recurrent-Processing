@@ -18,7 +18,6 @@ def train_prednet(model='PredNetTied', cls=6, gpunum=4, lr=0.01, dataset='CIFAR1
     best_acc = 0  # best test accuracy
     start_epoch = 0  # start from epoch 0 or last checkpoint epoch
     batchsize = 128 #batch size
-    batchsize_test = 100
     root = './'
     rep = 1 #intial repitetion is 1
 
@@ -38,30 +37,8 @@ def train_prednet(model='PredNetTied', cls=6, gpunum=4, lr=0.01, dataset='CIFAR1
         modelname = model+'_'+dataset+'_'+str(lr)+'LR_'+str(cls)+'CLS_'+str(rep)+'REP'
 
     # Data
-    print('==> Preparing data..')
-    if dataset == 'CIFAR100':
-        n_input_channels = 3
-        n_classes = 100
-        transform_train = transforms.Compose([
-            transforms.RandomCrop(32, padding=4),
-            transforms.RandomHorizontalFlip(),
-            transforms.ToTensor(),
-            transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),])
-        transform_test = transforms.Compose([
-            transforms.ToTensor(),
-            transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),])
-        trainset = torchvision.datasets.CIFAR100(root='./data', train=True, download=True, transform=transform_train)
-        trainloader = torch.utils.data.DataLoader(trainset, batch_size=batchsize, shuffle=True, num_workers=2)
-        testset = torchvision.datasets.CIFAR100(root='./data', train=False, download=True, transform=transform_test)
-        testloader = torch.utils.data.DataLoader(testset, batch_size=batchsize_test, shuffle=False, num_workers=2)
-    elif dataset == 'MNIST':
-        n_input_channels = 1
-        n_classes = 10
-        (trainset, testset), (trainloader, testloader) = load_dataset(dataset, batchsize)
-    elif dataset == 'CIFAR10':
-        n_input_channels = 3
-        n_classes = 10
-        (trainset, testset), (trainloader, testloader) = load_dataset(dataset, batchsize)
+    print(f'==> Preparing dataset {dataset}')
+    (trainset, testset), (trainloader, testloader), n_input_channels, n_classes = load_dataset(dataset, batchsize)
 
     # Define objective function
     criterion = nn.CrossEntropyLoss()
