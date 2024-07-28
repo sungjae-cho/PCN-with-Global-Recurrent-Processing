@@ -68,6 +68,12 @@ def train_prednet(model='PredNetTied', cls=6, gpunum=4, lr=0.01, dataset='CIFAR1
                 {'params': convparas},
                 {'params': rateparas, 'weight_decay': 0},
                 ], lr=lr, momentum=0.9, weight_decay=5e-4)
+    '''
+    optimizer = optim.Adam([
+                {'params': convparas},
+                {'params': rateparas, 'weight_decay': 0},
+                ], lr=lr)
+    '''
 
 
     # Parallel computing using mutiple gpu
