@@ -159,7 +159,8 @@ def rep_path(model_features, model_colors, labels=None, rdm_calc_method='euclide
     - rdm_calc_method (str, optional): Method for calculating RDMS ('euclidean' or 'correlation').
     - rdm_comp_method (str, optional): Method for comparing RDMS ('cosine' or 'corr').
     """
-    with plt.xkcd():
+    #with plt.xkcd plt.xkcd():
+    if True:
         path_len = []
         path_colors = []
         rdms_list = []
