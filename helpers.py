@@ -250,7 +250,7 @@ def rep_path(model_features, model_colors, labels=None, rdm_calc_method='euclide
         if labels is not None:
             ax.plot(dims[idx_labels, 0], dims[idx_labels, 1], color='m', marker='*')
 
-        ax.legend(model_names, fontsize=8)
+        ax.legend(model_names, fontsize=8, bbox_to_anchor=(1.01, 1), loc='upper left')
         fig.tight_layout()
     plt.show()
 
