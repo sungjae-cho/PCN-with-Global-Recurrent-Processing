@@ -128,7 +128,7 @@ class PredNet(nn.Module):
                 self.xrt.append([xr_l.cpu().detach().clone() for xr_l in xr])
 
         # classifier
-        out = F.avg_pool2d(xr[-1], xr[-1].size(-1))
+        out = F.avg_pool2d(xr[-1], xr[-1].size(-1)) # Applied to the feature map at the last step.
         out = out.view(out.size(0), -1)
         #out = self.linear(out)
         out = self.fc2(self.fc1(out))
