@@ -94,12 +94,19 @@ class PredNet(nn.Module):
         self.fc2 = nn.Linear(128, num_classes)
         self.linear = nn.ModuleList([self.fc1, self.fc2])
 
-    def forward(self, x):
+        # Representation history
+        self.xrt = None # accumulate `xr` through time.
+
+    def forward(self, x, r_history=False):
+        if r_history:
+            self.xrt = list()
 
         # Feedforward
         xr = [F.relu(self.FFconv[0](x))]
         for i in range(1,self.nlays):
             xr.append(F.relu(self.FFconv[i](xr[i-1])))
+        if r_history:
+            self.xrt.append([xr_l.cpu().detach().clone() for xr_l in xr])
 
         # Dynamic process
         for t in range(self.cls):
@@ -117,6 +124,8 @@ class PredNet(nn.Module):
             for i in range(1, self.nlays):
                 b0 = F.relu(self.b0[i]).expand_as(xr[i])
                 xr[i] = F.relu(self.FFconv[i](xr[i-1]-xp[i-1])*b0 + xr[i])
+            if r_history:
+                self.xrt.append([xr_l.cpu().detach().clone() for xr_l in xr])
 
         # classifier
         out = F.avg_pool2d(xr[-1], xr[-1].size(-1))
